@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MealPlan- Component</title>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+    <script src="../../js/react.min.js"></script>
+    <script src="../../js/react-dom.min.js"></script>
+    <script src="../../js/browser.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+
+	<script type="text/babel">
+		var TaskNote = React.createClass({
+			getInitialState: function(){
+				return{editing: false}
+			},
+
+			Edit: function(){
+				this.setState({editing: true});
+			},
+
+			Save: function(){
+				var task = this.refs.tasktext.value;
+				console.log("New Task: " + task);
+				this.setState({editing: false});
+			},
+
+			renderDefault: function(){
+				return(
+					<div className="TaskNote">
+						<div className="taskhead">
+							<h3>{this.props.task}</h3>
+						</div>
+						<div className="taskbody">
+							<ul>
+								<li>{this.props.stage}</li>
+							</ul>
+							<button onClick={this.Edit} className="btn btn-primary">Edit</button>
+						</div>
+					</div>
+				)
+			},
+
+			renderEditting: function(){
+				return(
+					<div className="Tasknote">
+						<div className="taskhead">
+							<textarea ref="tasktext" defaultValue={this.props.task}></textarea>
+						</div>
+						<div className="taskbody">
+							<form>
+									<div>
+										<input default={this.state.unchecked} type="checkbox" />
+										<span>To Do</span>
+									</div>
+									<div>
+										<input default={this.state.unchecked} type="checkbox" />
+										<span>Doing</span>
+									</div>
+									<div>
+										<input default={this.state.unchecked} type="checkbox" />
+										<span>Done</span>
+									</div>
+							</form>
+							<button onClick={this.Save} className="btn btn-success">Save</button>
+						</div>
+					</div>
+				)
+			},
+
+			render: function(){
+					if (this.state.editing){
+						return this.renderEditting();
+					}else{
+						return this.renderDefault();
+					}
+			}
+		});
+
+		ReactDOM.render(
+		<div>
+			<h1>Welcome to Your personal taskboard ;)</h1>
+			<div className="container">
+				<div className="row">
+					<div className="col-md-4">
+						<TaskNote task="Learn CSS" stage="Done" />
+					</div>
+					<div className="col-md-4">
+						<TaskNote task="Learn Sass" stage="To Do" />
+					</div>
+					<div className="col-md-4">
+						<TaskNote task="Learn React" stage="Doing" />
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		,document.getElementById('container'));
+	</script>
+</body>
+</html>
